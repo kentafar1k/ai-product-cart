@@ -1,0 +1,52 @@
+{
+  "status_code": 422,
+  "body": {
+    "detail": [
+      {
+        "type": "string_too_short",
+        "loc": [
+          "body",
+          "name"
+        ],
+        "msg": "String should have at least 1 character",
+        "input": "",
+        "ctx": {
+          "min_length": 1
+        }
+      },
+      {
+        "type": "string_type",
+        "loc": [
+          "body",
+          "manufacturer"
+        ],
+        "msg": "Input should be a valid string",
+        "input": 120
+      },
+      {
+        "type": "value_error",
+        "loc": [
+          "body",
+          "specs"
+        ],
+        "msg": "Value error, поле specs должно быть объектом ключ-значение",
+        "input": [
+          "диапазон 0–1 МПа",
+          "класс точности 1,5"
+        ],
+        "ctx": {
+          "error": {}
+        }
+      },
+      {
+        "type": "string_type",
+        "loc": [
+          "body",
+          "description"
+        ],
+        "msg": "Input should be a valid string",
+        "input": null
+      }
+    ]
+  }
+}
