@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Черновик карточки товара</title>
+  <style>
+    :root { font-family: Segoe UI, system-ui, sans-serif; color: #1b1f24; }
+    body { max-width: 960px; margin: 24px auto; padding: 0 16px; background: #f6f7f9; }
+    h1, h2 { margin-bottom: 8px; }
+    form, .card { background: #fff; padding: 16px; border-radius: 10px; margin-bottom: 16px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    label { display: block; font-weight: 600; margin: 12px 0 4px; }
+    input, textarea { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #c9d1d9; border-radius: 6px; }
+    textarea { min-height: 90px; font-family: Consolas, monospace; }
+    button { margin-top: 12px; padding: 8px 14px; border: 0; border-radius: 6px; background: #1f6feb; color: #fff; cursor: pointer; }
+    .error { background: #fff3f3; color: #8b1e1e; padding: 12px; border-radius: 8px; }
+    pre { white-space: pre-wrap; background: #0d1117; color: #e6edf3; padding: 12px; border-radius: 8px; overflow: auto; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <h1>AI-черновик карточки КИПиА</h1>
+  <p>Заполните данные прибора. Характеристики, которых нет во входе, модель не должна выдумывать.</p>
+
+  <form method="post" action="/generate-form">
+    <label for="name">Название</label>
+    <input id="name" name="name" required value="{{ name or '' }}">
+
+    <label for="manufacturer">Производитель</label>
+    <input id="manufacturer" name="manufacturer" value="{{ manufacturer or '' }}">
+
+    <label for="description">Описание / фрагмент паспорта</label>
+    <textarea id="description" name="description">{{ description or '' }}</textarea>
+
+    <label for="specs_json">Характеристики (JSON-объект)</label>
+    <textarea id="specs_json" name="specs_json">{{ specs_json or '{}' }}</textarea>
+
+    <button type="submit">Собрать черновик</button>
+  </form>
+
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  {% if result %}
+    <section class="card">
+      <h2>Результат для копирования</h2>
+      <div class="row">
+        <button type="button" onclick="copyText('md')">Копировать Markdown</button>
+        <button type="button" onclick="copyText('json')">Копировать JSON</button>
+      </div>
+      <h3>Markdown</h3>
+      <pre id="md">{{ result.markdown }}</pre>
+      <h3>JSON</h3>
+      <pre id="json">{{ raw_json }}</pre>
+    </section>
+  {% endif %}
+
+  <script>
+    function copyText(id) {
+      navigator.clipboard.writeText(document.getElementById(id).innerText);
+    }
+  </script>
+</body>
+</html>
