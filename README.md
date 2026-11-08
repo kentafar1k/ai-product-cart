@@ -75,5 +75,4 @@ curl -X POST http://127.0.0.1:8000/generate -H "Content-Type: application/json" 
 app/           API, промпт, LLM-клиент, guardrails
 templates/     веб-форма
 samples/       два входных JSON
-tests/         проверки антигаллюцинаций без вызова LLM
 ```
